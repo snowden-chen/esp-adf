@@ -66,7 +66,7 @@ display_service_handle_t audio_board_led_init(void)
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
 {
     esp_err_t ret = ESP_OK;
-    periph_adc_button_cfg_t adc_btn_cfg = {0};
+    periph_adc_button_cfg_t adc_btn_cfg = PERIPH_ADC_BUTTON_DEFAULT_CONFIG();
     adc_arr_t adc_btn_tag = ADC_DEFAULT_ARR();
     adc_btn_tag.adc_ch = ADC1_CHANNEL_5;
     adc_btn_tag.total_steps = 6;
@@ -90,7 +90,7 @@ esp_err_t audio_board_deinit(audio_board_handle_t audio_board)
     esp_err_t ret = ESP_OK;
     ret = audio_hal_deinit(audio_board->audio_hal);
     audio_board->audio_hal = NULL;
-    free(audio_board);
+    audio_free(audio_board);
     board_handle = NULL;
     return ret;
 }

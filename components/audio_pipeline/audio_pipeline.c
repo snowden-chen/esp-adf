@@ -314,10 +314,10 @@ esp_err_t audio_pipeline_resume(audio_pipeline_handle_t pipeline)
             continue;
         }
         if (wait_first_el) {
-            ret |= audio_element_resume(el_item->el, 0, portMAX_DELAY);
+            ret |= audio_element_resume(el_item->el, 0, 2000 / portTICK_RATE_MS);
             wait_first_el = false;
         } else {
-            ret |= audio_element_resume(el_item->el, 0, 0);
+            ret |= audio_element_resume(el_item->el, 0, 2000 / portTICK_RATE_MS);
         }
     }
     audio_pipeline_change_state(pipeline, AEL_STATE_RUNNING);
@@ -466,7 +466,7 @@ static esp_err_t _pipeline_rb_linked(audio_pipeline_handle_t pipeline, audio_ele
                         );
 
         AUDIO_MEM_CHECK(TAG, _success, {
-            free(rb_item);
+            audio_free(rb_item);
             return ESP_ERR_NO_MEM;
         });
 
@@ -894,7 +894,7 @@ static esp_err_t audio_pipeline_el_item_link(audio_pipeline_handle_t pipeline,
                         );
 
         AUDIO_MEM_CHECK(TAG, _success, {
-            free(cur_rb_item);
+            audio_free(cur_rb_item);
             return ESP_ERR_NO_MEM;
         });
         cur_rb_item->rb = tmp_rb;

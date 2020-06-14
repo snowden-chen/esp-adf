@@ -8,11 +8,11 @@ Espressif Systems Audio Development Framework (ESP-ADF) is the official audio de
 
 ESP-ADF supports development of audio applications for the Espressif Systems SoCs in the most comprehensive way. With ESP-ADF, you can easily add features, develop audio applications from simple to complex:
 
-- Music player or recorder supports audio formats such as MP3, AAC, FLAC, WAV, OGG, OPUS, AMR, TS, EQ, Downmixer, Sonic, ALC, G.711...
-- Play music from sources: HTTP, HLS(HTTP Live Streaming), SPIFFS, SDCARD,  A2DP-Source, A2DP-Sink, HFP ...
-- Integrate Media services such as: DLNA, VoIP ...
+- Music player or recorder supports audio formats such as MP3, AAC, FLAC, WAV, OGG, OPUS, AMR, TS, EQ, Downmixer, Sonic, ALC, G.711 and etc.
+- Play music from sources: HTTP, HLS (HTTP Live Streaming), SPIFFS, SDCARD, A2DP-Source, A2DP-Sink, HFP and etc.
+- Integrate Media services such as: DLNA, VoIP and etc.
 - Internet Radio
-- Voice recognition and integration with online services such as Alexa, DuerOS, ...
+- Voice recognition and integration with online services such as Alexa, DuerOS and etc.
 
 As a general, the ESP-ADF features will be supported as shown below:
 
@@ -33,15 +33,19 @@ Click on one of audio boards shown below to set up and start using ESP-ADF.
 Espressif Systems has released a number of boards for ESP-ADF to develop audio applications, including:
 
 | ESP32-LyraT Development Board | ESP32-LyraTD-MSC Development Board |
-|:----:|:----:| 
+|:----:|:----:|
 | [<img src="docs/_static/esp32-lyrat-v4.2-side.jpg" width="380" alt ="ESP32-LyraT Development Board" align="center" />](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyrat.html) | [<img src="docs/_static/esp32-lyratd-msc-v2.2.jpg" width="380" alt ="ESP32-LyraTD-MSC Development Board" align="center" />](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyratd-msc.html) |
-| [Getting Started with ESP32-LyraT](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyrat.html) | [Getting Started with ESP32-LyraTD-MSC](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyrat-mini.html) |
+| [Getting Started with ESP32-LyraT](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyrat.html) | [Getting Started with ESP32-LyraTD-MSC](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyratd-msc.html) |
 
 | ESP32-LyraT-Mini Development Board | ESP32-S2-Kaluga-1 Kit (ESP-LyraT-8311A) |
-|:----:|:----:| 
+|:----:|:----:|
 | [<img src="docs/_static/esp32-lyrat-mini-v1.2.png" width="380" alt ="ESP32-LyraT-Mini Development Board" align="center" />](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyrat-mini.html) | [<img src="docs/_static/esp32-s2-kaluga-1-kit.png" width="380" alt ="ESP32-LyraT-Mini Development Board" align="center" />](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp32-s2-kaluga-1-kit.html) |
 | [Getting Started with ESP32-LyraT-Mini](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-lyrat-mini.html) | [Getting Started with ESP32-S2-Kaluga-1 Kit](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp32-s2-kaluga-1-kit.html) |
 
+| ESP32-Korvo-DU1906 Development Board |
+| :----: |
+| [<img src="docs/_static/esp32-korvo-du1906-v1.1.png" width="380" alt ="ESP32-Korvo-DU1906 Development Board" align="center" />](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-korvo-du1906.html) | 
+| [Getting Started with ESP32-Korvo-DU1906](https://docs.espressif.com/projects/esp-adf/en/latest/get-started-esp32-korvo-du1906.html) |
 
 #### ESP32-LyraT
 
@@ -73,12 +77,21 @@ An open-source mono development board. Designed for connected smart speakers and
 
 #### ESP32-S2-Kaluga-1 Kit (ESP-LyraT-8311A)
 
-The ESP32-S2-Kaluga-1 multimedia kit is based on ESP32-S2 and features several extensions including ESP-LyraT-8311A audio board (below) as well as camera, LCD, and touch pad boards. 
+The ESP32-S2-Kaluga-1 multimedia kit is based on ESP32-S2 and features several extensions including ESP-LyraT-8311A audio board (below) as well as camera, LCD, and touch pad boards.
 
 [<div align="center"><img src="docs/_static/esp-lyrat-8311a-v1.2-layout-front.png" width="740" alt ="ESP-LyraT-8311A Extension Board" align="center" /></div>](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp32-s2-kaluga-1-kit.html)
 
 * [Getting Started with ESP32-S2-Kaluga-1 Kit](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/hw-reference/esp32s2/user-guide-esp32-s2-kaluga-1-kit.html)
 * [ESP32-S2-Kaluga-1 Schematic (PDF) ](https://dl.espressif.com/dl/schematics/ESP-LyraT-8311A_V1_2_SCH_20200421A.pdf)
+
+#### ESP32-Korvo-DU1906
+
+ESP32-Korvo-DU1906 is an Espressif audio development board with an ESP32-DU1906 module as its core, integrating Wi-Fi, Bluetooth, Bluetooth Low Energy RF and voice/speech signal processing functions. 
+
+[<div align="center"><img src="docs/_static/esp32-korvo-du1906-v1.1.png" width="600" alt ="ESP32-Korvo-DU1906 Development Board" align="center" /></div>](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-korvo-du1906.html)
+
+* [ESP32-Korvo-DU1906 User Guide](https://docs.espressif.com/projects/esp-adf/en/latest/get-started/get-started-esp32-korvo-du1906.html)
+* [ESP32-Korvo-DU1906 Schematic (PDF) ](https://dl.espressif.com/dl/schematics/ESP32-Korvo-DU1906-schematics.pdf)
 
 #### Examples
 

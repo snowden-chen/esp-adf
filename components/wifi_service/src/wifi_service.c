@@ -281,7 +281,6 @@ static void wifi_task(void *pvParameters)
     wifi_config_t *stored_ssid = NULL;
 
     wifi_sta_setup(pvParameters);
-    esp_wifi_get_config(WIFI_IF_STA, &wifi_cfg);
     configure_wifi_sta_mode(&wifi_cfg);
     ESP_ERROR_CHECK(esp_wifi_start());
 
@@ -432,7 +431,7 @@ static void wifi_task(void *pvParameters)
                     memcpy(&wifi_cfg, info, sizeof(wifi_config_t));
                     configure_wifi_sta_mode(&wifi_cfg);
                     esp_wifi_connect();
-                    free(info);
+                    audio_free(info);
                 }
             } else {
                 ESP_LOGI(TAG, "Not supported event type");
@@ -451,12 +450,6 @@ static void wifi_task(void *pvParameters)
     }
     xEventGroupSetBits(serv->sync_evt, WIFI_TASK_DESTROY_BIT);
     vTaskDelete(NULL);
-}
-
-static esp_err_t _wifi_destroy(periph_service_handle_t handle)
-{
-    AUDIO_NULL_CHECK(TAG, handle, return ESP_ERR_INVALID_ARG);
-    return wifi_service_destroy(handle);
 }
 
 static esp_err_t _wifi_start(periph_service_handle_t handle)
@@ -564,8 +557,22 @@ esp_err_t wifi_service_destroy(periph_service_handle_t handle)
     }
     vQueueDelete(serv->wifi_serv_que);
     vEventGroupDelete(serv->sync_evt);
-    free(serv);
+    audio_free(serv);
     periph_service_destroy(handle);
+    return ret;
+}
+
+esp_err_t wifi_service_erase_ssid_manager_info(periph_service_handle_t handle)
+{
+    AUDIO_NULL_CHECK(TAG, handle, return ESP_ERR_INVALID_ARG);
+    esp_err_t ret = ESP_OK;
+    wifi_service_t *serv = periph_service_get_data(handle);
+    if (serv->ssid_manager) {
+        ret = wifi_ssid_manager_erase_all(serv->ssid_manager);
+        if (ret == ESP_OK) {
+            ESP_LOGW(TAG, "Erase all the ssid information stored in flash");
+        }
+    }
     return ret;
 }
 
@@ -576,7 +583,7 @@ periph_service_handle_t wifi_service_create(wifi_service_config_t *config)
 
     serv->ssid_manager = wifi_ssid_manager_create(config->max_ssid_num);
     AUDIO_MEM_CHECK(TAG, serv->ssid_manager, {
-        free(serv);
+        audio_free(serv);
         return NULL;
     });
     serv->max_retry_time = config->max_retry_time;
@@ -585,14 +592,14 @@ periph_service_handle_t wifi_service_create(wifi_service_config_t *config)
     serv->wifi_serv_que = xQueueCreate(3, sizeof(wifi_task_msg_t));
     AUDIO_MEM_CHECK(TAG, serv->wifi_serv_que, {
         wifi_ssid_manager_destroy(serv->ssid_manager);
-        free(serv);
+        audio_free(serv);
         return NULL;
     });
     serv->sync_evt = xEventGroupCreate();
     AUDIO_MEM_CHECK(TAG, serv->sync_evt, {
         vQueueDelete(serv->wifi_serv_que);
         wifi_ssid_manager_destroy(serv->ssid_manager);
-        free(serv);
+        audio_free(serv);
         return NULL;
     });
 
@@ -607,7 +614,7 @@ periph_service_handle_t wifi_service_create(wifi_service_config_t *config)
         .service_start = _wifi_start,
         .service_stop = _wifi_stop,
         .service_ioctl = NULL,
-        .service_destroy = _wifi_destroy,
+        .service_destroy = wifi_service_destroy,
         .service_name = "wifi_serv",
         .user_data = (void *)serv,
     };
@@ -617,7 +624,7 @@ periph_service_handle_t wifi_service_create(wifi_service_config_t *config)
         vQueueDelete(serv->wifi_serv_que);
         vEventGroupDelete(serv->sync_evt);
         wifi_ssid_manager_destroy(serv->ssid_manager);
-        free(serv);
+        audio_free(serv);
         return NULL;
     });
     periph_service_set_callback(wifi, config->evt_cb, config->cb_ctx);
