@@ -127,14 +127,19 @@ typedef struct {
     audio_element_reserve_data_t reserve_data;  /*!< This value is reserved for user use (optional) */
 } audio_element_info_t;
 
-#define AUDIO_ELEMENT_INFO_DEFAULT()    {   \
-    .sample_rates = 44100,                  \
-    .channels = 2,                          \
-    .bits = 16,                             \
-    .uri = NULL,                            \
+#define AUDIO_ELEMENT_INFO_DEFAULT()    { \
+    .sample_rates = 44100,                \
+    .channels = 2,                        \
+    .bits = 16,                           \
+    .bps = 0,                             \
+    .byte_pos = 0,                        \
+    .total_bytes = 0,                     \
+    .duration = 0,                        \
+    .uri = NULL,                          \
+    .codec_fmt = ESP_CODEC_TYPE_UNKNOW    \
 }
 
-typedef esp_err_t (*io_func)(audio_element_handle_t self);
+typedef esp_err_t (*el_io_func)(audio_element_handle_t self);
 typedef audio_element_err_t (*process_func)(audio_element_handle_t self, char *el_buffer, int el_buf_len);
 typedef audio_element_err_t (*stream_func)(audio_element_handle_t self, char *buffer, int len, TickType_t ticks_to_wait,
         void *context);
@@ -149,11 +154,11 @@ typedef esp_err_t (*ctrl_func)(audio_element_handle_t self, void *in_data, int i
  *
  */
 typedef struct {
-    io_func             open;             /*!< Open callback function */
+    el_io_func          open;             /*!< Open callback function */
     ctrl_func           seek;             /*!< Seek callback function */
     process_func        process;          /*!< Process callback function */
-    io_func             close;            /*!< Close callback function */
-    io_func             destroy;          /*!< Destroy callback function */
+    el_io_func          close;            /*!< Close callback function */
+    el_io_func          destroy;          /*!< Destroy callback function */
     stream_func         read;             /*!< Read callback function */
     stream_func         write;            /*!< Write callback function */
     int                 buffer_len;       /*!< Buffer length use for an Element */
